@@ -1,16 +1,28 @@
-import React, { useState, useEffect } from 'react'
-import { Text, View,  ActivityIndicator, FlatList, StyleSheet  } from 'react-native'
-import { collection, getDocs } from "firebase/firestore"; 
-import { app } from '../firebaseConfig';
-import { getFirestore } from 'firebase/firestore';
-import firestore from '@react-native-firebase/firestore';
-import { async } from '@firebase/util';
+import React, { useState, useEffect } from "react";
+import {
+  Text,
+  View,
+  Image,
+  ActivityIndicator,
+  Dimensions,
+  FlatList,
+  StyleSheet,
+} from "react-native";
+import { collection, getDocs } from "firebase/firestore";
+import { app } from "../firebaseConfig";
+import { getFirestore } from "firebase/firestore";
+//import firestore from '@react-native-firebase/firestore';
+import { async } from "@firebase/util";
 
-const PizzaScreen =   ({route,navigation}) => {
+
+const windowWidth = Dimensions.get("window").width;
+const windowHeight = Dimensions.get("window").height;
+
+const PizzaScreen = ({ route, navigation }) => {
   const [loading, setLoading] = useState(true);
   const [users, setUsers] = useState([]);
 
-  const {itemName} = route.params
+  const { itemName } = route.params;
   // if (loading) {
   //   return <ActivityIndicator />;
   // }
@@ -22,49 +34,82 @@ const PizzaScreen =   ({route,navigation}) => {
     const subscriber = async () => {
       const users = await reload(itemName);
       setUsers(users);
-      
-    }
+    };
     subscriber();
-        return () => {
-         
-          
-        }
-        //setLoading(false);
-      }, []);
+    return () => {};
+    //setLoading(false);
+  }, []);
   //     console.log(users)
 
   //reload()
-  console.log(users)
+  //console.log(users)
   return (
     <FlatList
       data={users}
       renderItem={({ item }) => (
         <>
-        <View style={{ height: 100,}}>
-        <View style={{ flexDirection: 'row', flex: 1, justifyContent: 'center', }}>
-          {/* <Text>User ID: {item.id}</Text> */}
-          <Text style={{ fontSize: 19, textAlign: 'left',fontWeight: 'bold' }}>{item.name}</Text>
-          <Text>{item.price}</Text>
-        </View>
-        <View style={{alignItems: 'center',}}>
-          <Text style={{fontWeight:'50'}}>
-            {item.desc}
-          </Text>
-        </View>
-        </View>
-          </>
-      )
-    }
-    ItemSeparatorComponent={() => <View style={{height: 20,borderBottomColor: 'black',
-    borderBottomWidth: StyleSheet.hairlineWidth}} />}
+        <View>
+          <View style={{}}>
+            <Image  style ={styles.image}source={{uri:item.image}}/>
+            <View style={styles.title}>
+              <Text style={styles.name}>{item.name}</Text>
+            </View>
+            <View style={styles.price}>
+              <Text styles={styles.priceword}>{item.price}</Text>
+            </View>
+            <View>
+              <Text style={styles.desc}>
+                {item.desc}
+              </Text>
+            </View>
+          </View>
+          </View>
+        </>
+      )}
+      ItemSeparatorComponent={() => (
+        <View
+          style={{
+            height: 20,
+            borderBottomColor: "black",
+            borderBottomWidth: StyleSheet.hairlineWidth,
+          }}
+        />
+      )}
     />
-  )
-}
+  );
+};
 
+const styles = StyleSheet.create({
+  title: {
+    alignItems: "flex-start",
+  },
+  name: {
+    fontSize: 15,
+    fontWeight: "bold",
+  },
+  price: {
+    alignItems: "flex-end",
+    justifyContent: "flex-end"
+  },
+  desc:{
+    margin: 20,
+    fontStyle: "italic"
 
-async function reload(itemName){
-  users = []
-  const db = getFirestore(app)
+  },
+  image:
+  {
+    alignItems: "center",
+    justifyContent: "center",
+    alignContent: "center",
+    width: windowWidth*0.75,
+    height: windowHeight*0.2,
+    borderRadius: 40
+  }
+});
+
+async function reload(itemName) {
+  users = [];
+  const db = getFirestore(app);
   const querySnapshot = await getDocs(collection(db, itemName));
   querySnapshot.forEach((doc) => {
     users.push({
@@ -72,8 +117,8 @@ async function reload(itemName){
       key: doc.id,
     });
   });
-  console.log(users)
+  console.log(users);
   return users;
   // const doc = firestore().collection("Best Sellers")
 }
-export default PizzaScreen
+export default PizzaScreen;
