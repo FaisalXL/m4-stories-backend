@@ -57,7 +57,7 @@ const Menu = ({navigation}) => {
 
           </View>
         </Modal> */}
-        <Pressable onPress ={()=> navigation.navigate("PizzaScreen")}>
+        <Pressable onPress ={()=> navigation.navigate("PizzaScreen",{itemName :"Best Sellers"})}>
           <Text style={styles.titletext}>Best Sellers</Text>
         </Pressable>
         <FlatList
@@ -72,7 +72,7 @@ const Menu = ({navigation}) => {
           )}
           showsHorizontalScrollIndicator={false}
         />
-        <Pressable>
+        <Pressable onPress ={()=> navigation.navigate("PizzaScreen",{itemName :"Pizzas"})}>
           <Text style={styles.titletext}>Pizzas</Text>
         </Pressable>
         <FlatList
@@ -87,7 +87,9 @@ const Menu = ({navigation}) => {
           )}
           showsHorizontalScrollIndicator={false}
         />
-        <Text style={styles.titletext}>Best Sellers</Text>
+        <Pressable onPress ={()=> navigation.navigate("PizzaScreen",{itemName :"Cocktails"})}>
+          <Text style={styles.titletext}>Cocktails</Text>
+        </Pressable>
         <FlatList
           horizontal
           data={DATA}
@@ -100,7 +102,9 @@ const Menu = ({navigation}) => {
           )}
           showsHorizontalScrollIndicator={false}
         />
-        <Text style={styles.titletext}>Best Sellers</Text>
+        <Pressable onPress ={()=> navigation.navigate("PizzaScreen",{itemName :"Desserts"})}>
+          <Text style={styles.titletext}>Desserts</Text>
+        </Pressable>
         <FlatList
           horizontal
           data={DATA}
