@@ -5,7 +5,7 @@ import { app } from '../firebaseConfig';
 import { getFirestore } from 'firebase/firestore';
 import firestore from '@react-native-firebase/firestore';
 
-const PizzaScreen =   () => {
+const PizzaScreen =   ({ route, navigation }) => {
   // const [loading, setLoading] = useState(true);
   // const [users, setUsers] = useState([]);
 
@@ -15,7 +15,8 @@ const PizzaScreen =   () => {
 
 
   //const text1 = "test"
-  reload()
+  const {itemName} = route.params;
+  reload(itemName)
 
   return (
     <View style={{flex:1}}>
@@ -25,13 +26,14 @@ const PizzaScreen =   () => {
 }
 
 
-async function reload(){
+async function reload(itemName){
   users = []
   const db = getFirestore(app)
-  const querySnapshot = await getDocs(collection(db, "Best Sellers"));
+  const querySnapshot = await getDocs(collection(db, itemName));
   querySnapshot.forEach((doc) => {
   
     console.log(doc.data().name);
+    console.log(itemName)
   });
   // const doc = firestore().collection("Best Sellers")
 }

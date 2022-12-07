@@ -57,7 +57,7 @@ const Menu = ({navigation}) => {
 
           </View>
         </Modal> */}
-        <Pressable onPress ={()=> navigation.navigate("PizzaScreen")}>
+        <Pressable onPress ={()=> navigation.navigate("PizzaScreen",{itemName :"Best Sellers"})}>
           <Text style={styles.titletext}>Best Sellers</Text>
         </Pressable>
         <FlatList
